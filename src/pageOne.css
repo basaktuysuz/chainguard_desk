@@ -105,6 +105,7 @@ body
     display: flex;
     text-decoration: none;
     color: #fff;
+
 }
 .navigation ul li.active a
 {
