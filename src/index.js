@@ -14,6 +14,7 @@ root.render(
               <Route index element={<App />} />
               <Route path="pageone" element={<PageOne />} />
               <Route path="profile" element={<Profile/>} />
+              <Route path="login" element={<App/>} />
           </Routes>
       </BrowserRouter>
   </React.StrictMode>

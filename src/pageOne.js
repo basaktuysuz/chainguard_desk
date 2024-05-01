@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './pageOne.css';
-import { IonIcon } from '@ionic/react';
+import {IonIcon} from '@ionic/react';
 import {
     homeOutline,
     personOutline,
     cubeOutline,
-    logOutOutline,
+    logOutOutline, menuOutline,
 } from 'ionicons/icons';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import QrCodeGenerator from "./QrCodeGenerator";
+import "firebase/auth";
 
 function PageOne() {
     const [isActive, setIsActive] = useState(false);
@@ -56,57 +57,67 @@ function PageOne() {
             clickedItem.classList.add('active');
         }
     };
+    const logout = async () => {
+        try {
+            navigate("/login");
 
+        } catch (error) {
+            console.error("Error signing out:", error);
+            alert("An error occurred. Please try again.");
+        }
+    };
     return (
         <div>
             <div className={`navigation ${isActive ? 'active' : ''}`}>
                 <ul>
-                    <li className={`list ${selectedTab === 'home' ? 'active' : ''}`} id="home" onClick={() => handleNavigation('home')}>
+                    <li className={`list ${selectedTab === 'home' ? 'active' : ''}`} id="home"
+                        onClick={() => handleNavigation('home')}>
                         <b></b>
                         <b></b>
                         <a href="#">
-                            <span className="icon"><IonIcon icon={homeOutline} /></span>
+                            <span className="icon"><IonIcon icon={homeOutline}/></span>
                             <span className="title">Home</span>
                         </a>
                     </li>
-                    <li className={`list ${selectedTab === 'profile' ? 'active' : ''}`} id="profile" onClick={() => handleNavigation('profile')}>
+                    <li className={`list ${selectedTab === 'profile' ? 'active' : ''}`} id="profile"
+                        onClick={() => handleNavigation('profile')}>
                         <b></b>
                         <b></b>
                         <a href="#">
-                            <span className="icon"><IonIcon icon={personOutline} /></span>
+                            <span className="icon"><IonIcon icon={personOutline}/></span>
                             <span className="title">Profile Settings</span>
                         </a>
                     </li>
-                    <li className={`list ${selectedTab === 'createBox' ? 'active' : ''}`} id="createBox" onClick={() => handleNavigation('createBox')}>
+                    <li className={`list ${selectedTab === 'createBox' ? 'active' : ''}`} id="createBox"
+                        onClick={() => handleNavigation('createBox')}>
                         <b></b>
                         <b></b>
                         <a href="#">
-                            <span className="icon"><IonIcon icon={cubeOutline} /></span>
+                            <span className="icon"><IonIcon icon={cubeOutline}/></span>
                             <span className="title">Create Box</span>
                         </a>
                     </li>
-                    <li className={`list ${selectedTab === 'logout' ? 'active' : ''}`} id="logout" onClick={() => handleNavigation('logout')}>
+                    <li className={`list ${selectedTab === 'logout' ? 'active' : ''}`} id="logout" onClick={logout}>
                         <b></b>
                         <b></b>
                         <a href="#">
-                            <span className="icon"><IonIcon icon={logOutOutline} /></span>
+                            <span className="icon"><IonIcon icon={logOutOutline}/></span>
                             <span className="title">Logout</span>
                         </a>
                     </li>
                 </ul>
             </div>
             <div>
-                <ion-icon name="menu-outline" className="open"></ion-icon>
+                <ion-icon name="menu-" className="open"></ion-icon>
                 <ion-icon name="close-outline" className="close"></ion-icon>
                 <div className="toggle" onClick={handleToggle}>
-                    <IonIcon className={isActive ? 'open' : ''} icon={isActive ? 'close' : 'menu'} />
-                </div>
+                    <IonIcon icon={menuOutline}/></div>
             </div>
 
             {selectedTab === 'home' && (
                 <div className="welcome-message">
                     <h1>Welcome to ChainGuard</h1>
-                    <img src="/logo.png" alt="ChainGuard Logo" />
+                    <img src="/logo.png" alt="ChainGuard Logo"/>
                 </div>
             )}
 
@@ -124,7 +135,7 @@ function PageOne() {
                         />
                         </div>
                         <div className="form-group">
-                            <text>Full Name: </text>
+                            <text>Full Name:</text>
                             <input
                                 type="text"
                                 name="fullname"
@@ -134,7 +145,7 @@ function PageOne() {
                             />
                         </div>
                         <div className="form-group">
-                            <text>ID Number: </text>
+                            <text>ID Number:</text>
                             <input
                                 type="text"
                                 name="id_Number"
@@ -144,7 +155,7 @@ function PageOne() {
                             />
                         </div>
                         <div className="form-group">
-                            <text>Last Login: </text>
+                            <text>Last Login:</text>
                             <input
                                 type="text"
                                 name="last_login"
@@ -154,7 +165,7 @@ function PageOne() {
                             />
                         </div>
                         <div className="form-group">
-                            <text>Role: </text>
+                            <text>Role:</text>
                             <input
                                 type="text"
                                 name="role"
@@ -169,7 +180,7 @@ function PageOne() {
 
             {selectedTab === 'createBox' && (
                 <div className="create-box-container">
-                    <QrCodeGenerator />
+                    <QrCodeGenerator/>
                 </div>
             )}
         </div>

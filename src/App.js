@@ -5,8 +5,6 @@ import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} fro
 import {initializeApp} from "firebase/app";
 import {getFirestore, doc, setDoc} from "firebase/firestore";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import pageOne from "./pageOne";
-
 
 // Firebase configuration
 export const firebaseConfig = {
@@ -21,29 +19,25 @@ export const firebaseConfig = {
 
 
 function App() {
-
-// Initialize Firebase
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     const [name, setName] = useState('');
     const [IDnumber, setIDnumber] = useState('');
-    const [phoneNumber, setphoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(true);
     const auth = getAuth();
     const navigate = useNavigate();
+
     const toggleForm = () => {
         setIsSignUp(!isSignUp);
     };
 
     const signup = async () => {
-        if (!validate_email(email) || !validate_password(password) || !validate_field(name)) {
-            alert('Please enter valid information');
-            return;
-        }
-
+        // validation code here
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
@@ -56,7 +50,7 @@ function App() {
                 phoneNo: phoneNumber,
                 url: "", // profileda avatar için ama gereksiz biraz
                 role: "admin", //burada desktopta gireni  direkt admin yapıyorum
-                last_login: Date().toLocaleString() + ""
+                last_login: new Date().toLocaleString() + ""
             });
 
             alert("Signup successful");
@@ -66,37 +60,22 @@ function App() {
             alert("An error occurred. Please try again.");
         }
     };
-    const login = async () => {
-        if (!validate_email(email) || !validate_password(password)) {
-            alert('Please enter valid information');
-            return;
-        }
 
+
+
+    const login = async () => {
+        // validation code here
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert('User Logged In');
-            navigate("/pageone");
+            navigate("/pageOne");
         } catch (error) {
             alert("An error occurred. Please try again.");
         }
     };
 
-    const navigateToHomePage = () => {
-        window.location.href = '/pageOne.js';
-    };
 
-    const validate_email = (email) => {
-        const expression = /^[^@]+@\w+(\.\w+)+\w$/;
-        return expression.test(email);
-    };
 
-    const validate_password = (password) => {
-        return password.length >= 6;
-    };
-
-    const validate_field = (field) => {
-        return field && field.trim().length > 0;
-    };
 
     return (
         <div className={`container-login ${isSignUp ? '' : 'right-panel-active'}`} id="container">
@@ -121,7 +100,7 @@ function App() {
                     </div>
                     <div className="infield">
                         <input type="tel" placeholder="Phone Number" value={phoneNumber}
-                               onChange={(e) => setphoneNumber(e.target.value)}/>
+                               onChange={(e) => setPhoneNumber(e.target.value)}/>
                     </div>
                     <button type="button" onClick={signup}>Sign Up</button>
                 </form>

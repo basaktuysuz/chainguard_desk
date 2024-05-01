@@ -167,12 +167,13 @@ body {
     position: absolute;
     color: #fff;
     font-size: 34px;
-    display: none;
+    display: flex;
 }
 
 .toggle ion-icon.open,
 .toggle.active ion-icon.close {
-    display: block;
+    display: flex;
+
 }
 
 .toggle ion-icon.close,
