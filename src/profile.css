@@ -2,7 +2,7 @@
     width: 700px;
     margin: 50px auto;
     padding: 10px;
-    border: 1px solid #0839d9;
+    border: 1px solid #eaeaea;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
     background:  #eaeaea;
@@ -31,7 +31,7 @@ label {
 .profile-input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #0839d9;
+    border: 1px solid lightgray;
     border-radius: 5px;
     /* Diğer özel stillemeler */
 }
