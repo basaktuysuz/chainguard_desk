@@ -1,20 +1,22 @@
 .profile-container {
-    width: 800px;
+    width: 700px;
     margin: 50px auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #0839d9;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
+    background:  #eaeaea;
+    margin-left: 50px;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .profile-form .form-group {
-    width: 100%;
-    margin-bottom: 15px;
+    width: 80%;
+    margin-bottom: 10px;
 }
 
 label {

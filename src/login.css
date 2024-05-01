@@ -171,7 +171,7 @@ button {
 
 .overlay {
     position: relative;
-    background: var(--linear-grad-overlay-sign-up); /* Sign Up overlay iÃ§in arka plan rengi gÃ¼ncellendi */
+    background: var(--linear-grad-overlay-sign-up);
     color: #FFF;
     left: -150%;
     height: 100%;
@@ -195,13 +195,13 @@ button {
 .overlay-left {
     right: 60%;
     transform: translateX(-12%);
-    background: var(--linear-grad-overlay-sign-in); /* Sign In overlay iÃ§in arka plan rengi gÃ¼ncellendi */
+    background: var(--linear-grad-overlay-sign-in);
 }
 
 .overlay-right {
     right: 0;
     transform: translateX(0%);
-    background: var(--linear-grad-overlay-sign-up); /* Sign Up overlay iÃ§in arka plan rengi gÃ¼ncellendi */
+    background: var(--linear-grad-overlay-sign-up);
 }
 
 .overlay-panel h1 {
@@ -280,3 +280,4 @@ p {
 #toast.hidden {
     display: none;
 }
+
