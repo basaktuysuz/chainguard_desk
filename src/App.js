@@ -21,25 +21,29 @@ export const firebaseConfig = {
 
 
 function App() {
-    // Initialize Firebase
+
+// Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     const [name, setName] = useState('');
     const [IDnumber, setIDnumber] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setphoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(true);
     const auth = getAuth();
     const navigate = useNavigate();
-
     const toggleForm = () => {
         setIsSignUp(!isSignUp);
     };
 
     const signup = async () => {
-        // validation code here
+        if (!validate_email(email) || !validate_password(password) || !validate_field(name)) {
+            alert('Please enter valid information');
+            return;
+        }
+
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
@@ -52,7 +56,7 @@ function App() {
                 phoneNo: phoneNumber,
                 url: "", // profileda avatar için ama gereksiz biraz
                 role: "admin", //burada desktopta gireni  direkt admin yapıyorum
-                last_login: new Date().toLocaleString() + ""
+                last_login: Date().toLocaleString() + ""
             });
 
             alert("Signup successful");
@@ -62,44 +66,89 @@ function App() {
             alert("An error occurred. Please try again.");
         }
     };
-
     const login = async () => {
-        // validation code here
+        if (!validate_email(email) || !validate_password(password)) {
+            alert('Please enter valid information');
+            return;
+        }
+
         try {
             await signInWithEmailAndPassword(auth, email, password);
             alert('User Logged In');
-            navigate("/pageOne");
+            navigate("/pageone");
         } catch (error) {
             alert("An error occurred. Please try again.");
         }
     };
 
-    const logout = async () => {
-        try {
-
-            await auth.signOut();
-
-            navigate("/login");
-        } catch (error) {
-            console.error("Error signing out:", error);
-            alert("An error occurred. Please try again.");
-        }
+    const navigateToHomePage = () => {
+        window.location.href = '/pageOne.js';
     };
 
+    const validate_email = (email) => {
+        const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+        return expression.test(email);
+    };
+
+    const validate_password = (password) => {
+        return password.length >= 6;
+    };
+
+    const validate_field = (field) => {
+        return field && field.trim().length > 0;
+    };
 
     return (
         <div className={`container-login ${isSignUp ? '' : 'right-panel-active'}`} id="container">
             <div className="form-container sign-up-container">
                 <form>
                     <h1>Create Account</h1>
-                    {/* Form alanları */}
+                    <div className="infield">
+                        <input type="text" placeholder="FullName" value={name}
+                               onChange={(e) => setName(e.target.value)}/>
+                    </div>
+                    <div className="infield">
+                        <input type="email" placeholder="E-Mail" value={email}
+                               onChange={(e) => setEmail(e.target.value)}/>
+                    </div>
+                    <div className="infield">
+                        <input type="password" placeholder="Password" value={password}
+                               onChange={(e) => setPassword(e.target.value)}/>
+                    </div>
+                    <div className="infield">
+                        <input type="tel" placeholder="ID number" value={IDnumber}
+                               onChange={(e) => setIDnumber(e.target.value)}/>
+                    </div>
+                    <div className="infield">
+                        <input type="tel" placeholder="Phone Number" value={phoneNumber}
+                               onChange={(e) => setphoneNumber(e.target.value)}/>
+                    </div>
                     <button type="button" onClick={signup}>Sign Up</button>
                 </form>
             </div>
             <div className="form-container sign-in-container">
                 <form>
                     <h1>Sign In</h1>
-                    {/* Form alanları */}
+                    <div className="social-container">
+                        <a href="https://www.facebook.com" target="_blank">
+                            <i className="fab fa-facebook-f" style={{color: '#3b5998'}}></i>
+                        </a>
+                        <a href="https://appleid.apple.com/sign-in" target="_blank">
+                            <i className="fab fa-apple" style={{color: 'black'}}></i>
+                        </a>
+                        <a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dgo-to-account-button&ifkv=ATuJsjwB4FtJqKi7JYQGrVE95rawSV39pcKJR8itNOvDoXVkeJKuSOmuskHLZh3gKUwkuKZRzUvb3Q&service=accountsettings&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S218691251%3A1709918989733647&theme=mn"
+                           target="_blank">
+                            <i className="fab fa-google" style={{color: '#DB4437'}}></i>
+                        </a>
+                    </div>
+                    <span>or use your account</span>
+                    <div className="infield">
+                        <input type="email" placeholder="E-Mail"/>
+                    </div>
+                    <div className="infield">
+                        <input type="password" placeholder="Password"/>
+                    </div>
+                    <a href="#" className="forgot">Forgot your password?</a>
                     <button type="button" onClick={login}>Sign In</button>
                 </form>
             </div>
@@ -118,8 +167,6 @@ function App() {
                 </div>
                 <button id="overlayBtn" onClick={toggleForm}></button>
             </div>
-            {/* Çıkış butonu */}
-            <button className="logout-button" onClick={logout}>Logout</button>
         </div>
     );
 }
