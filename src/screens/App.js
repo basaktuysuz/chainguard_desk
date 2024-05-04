@@ -6,7 +6,6 @@ import {initializeApp} from "firebase/app";
 import {getFirestore, doc, setDoc} from "firebase/firestore";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-import { Credentials } from "realm-web";
 
 // Firebase configuration
 export const firebaseConfig = {
@@ -19,13 +18,12 @@ export const firebaseConfig = {
 };
 
 
-
 function App() {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 // Creating a Realm App Instance
-   const app3 = new app("application-0-hzldcca");
+//   const app3 = new app("application-0-hzldcca");
 
     const [name, setName] = useState('');
     const [IDnumber, setIDnumber] = useState('');
@@ -39,81 +37,111 @@ function App() {
     const toggleForm = () => {
         setIsSignUp(!isSignUp);
     };
-    const handleOnSubmit = async (e) => {
-        e.preventDefault();
-        let result = await fetch(
-            'http://localhost:5000/register', {
-                method: "post",
-                body: JSON.stringify({ name, email }),
+    // İstemci tarafında, kullanıcı kaydı işlemini gerçekleştirecek bir fonksiyon oluşturalım.
+    const handleOnSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/signup', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
-            })
-        result = await result.json();
-        console.warn(result);
-        if (result) {
-            alert("Data saved succesfully");
-            setEmail("");
-            setName("");
+                },
+                body: JSON.stringify({ name, email, password })
+            });
 
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                alert("Data Saved Succesfully")
+            } else {
+                // Sunucu tarafından dönen hata mesajını alın
+                const errorData = await response.json();
+                console.error('Signup failed:', errorData.message);
+                // Kullanıcıya kayıt hatasını işleyin
+            }
+        } catch (error) {
+            console.error('Error signing up:', error);
+            // Hata durumunu işleyin
         }
-    }
+    };
+
+    const handleLogin = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name,email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+               alert("oldu");
+            } else {
+                // Sunucu tarafından dönen hata mesajını alın
+                const errorData = await response.json();
+                console.error('Login failed:', errorData.message);
+                // Giriş hatasını işleyin
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            // Hata durumunu işleyin
+        }
+    };
     const signup = async (email, password) => {
         // validation code here
 
         // Function to sign up user into our App Service app using their email & password
 
-            try {
-                await app.emailPasswordAuth.registerUser(email, password);
-                // Since we are automatically confirming our users, we are going to log in
-                // the user using the same credentials once the signup is complete.
-                return app3.emailPasswordLogin(email, password);
-            } catch (error) {
-                throw error;
-
-        };
-
-
-      /*  try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            await setDoc(doc(db, "users", email), {
-                email: email,
-                fullname: name,
-                id_Number: IDnumber,
-                password: password,
-                phoneNo: phoneNumber,
-                url: "", // profileda avatar için ama gereksiz biraz
-                role: "admin", //burada desktopta gireni  direkt admin yapıyorum
-                last_login: new Date().toLocaleString() + ""
-            });
-
-            alert("Signup successful");
-
+        try {
+            await app.emailPasswordAuth.registerUser(email, password);
+            // Since we are automatically confirming our users, we are going to log in
+            // the user using the same credentials once the signup is complete.
+            // return app3.emailPasswordLogin(email, password);
         } catch (error) {
-            console.error("Error signing up:", error);
-            alert("An error occurred. Please try again.");
+            throw error;
+
         }
+        ;
 
-       */
+
+        /*  try {
+              const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+              const user = userCredential.user;
+
+              await setDoc(doc(db, "users", email), {
+                  email: email,
+                  fullname: name,
+                  id_Number: IDnumber,
+                  password: password,
+                  phoneNo: phoneNumber,
+                  url: "", // profileda avatar için ama gereksiz biraz
+                  role: "admin", //burada desktopta gireni  direkt admin yapıyorum
+                  last_login: new Date().toLocaleString() + ""
+              });
+
+              alert("Signup successful");
+
+          } catch (error) {
+              console.error("Error signing up:", error);
+              alert("An error occurred. Please try again.");
+          }
+
+         */
     };
-
-
 
 
     const login = async () => {
         // validation code here
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+           // await signInWithEmailAndPassword(auth, email, password);
             alert('User Logged In');
             navigate("/pageOne");
         } catch (error) {
             alert("An error occurred. Please try again.");
         }
     };
-
-
 
 
     return (

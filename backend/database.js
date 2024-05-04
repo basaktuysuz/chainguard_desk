@@ -42,21 +42,33 @@ app.get("/", (req, resp) => {
     // backend working properly
 });
 
-app.post("/register", async (req, resp) => {
-    try {
-        const user = new User(req.body);
-        let result = await user.save();
-        result = result.toObject();
-        if (result) {
-            delete result.password;
-            resp.send(req.body);
-            console.log(result);
-        } else {
-            console.log("User already register");
-        }
 
-    } catch (e) {
-        resp.send("Something Went Wrong");
+// Kullanıcı kaydı
+app.post('/signup', async (req, res) => {
+    try {
+        const { name, email, date } = req.body;
+        const user = new User({ name, email, date });
+        await user.save();
+        res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({ message: 'An error occurred while creating user' });
+    }
+});
+
+// Kullanıcı girişi
+app.post('/login', async (req, res) => {
+    const { email, password,date } = req.body;
+    try {
+        const user = await User.findOne({ email, password ,date });
+        if (user) {
+            res.status(200).json({ message: 'Login successful', user });
+        } else {
+            res.status(401).json({ message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ message: 'An error occurred while logging in' });
     }
 });
 app.listen(5000);
