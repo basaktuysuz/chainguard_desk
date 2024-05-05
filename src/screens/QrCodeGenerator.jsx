@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import * as htmlToImage from "html-to-image";
 import QRCode from "react-qr-code";
 import '../styles/style.css';
@@ -8,7 +8,7 @@ function QrCodeGenerator() {
         boxId: "",
         content: "",
         weight: "",
-        destination:""
+        destination: ""
     });
     const [qrIsVisible, setQrIsVisible] = useState(false);
     const [qrUrl, setQrUrl] = useState("");
@@ -16,7 +16,7 @@ function QrCodeGenerator() {
     const qrCodeRef = useRef(null);
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setBoxInfo(prevState => ({
             ...prevState,
             [name]: value
@@ -73,45 +73,45 @@ function QrCodeGenerator() {
 
 
     return (
-
-        <div className="card">
-            <h2 className="title">QR Code Generator</h2>
-            <div className="form-group">
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <input type="text" id="weight" name="destination" value={boxInfo.destination} onChange={handleChange}
-                               required placeholder="Enter Destination" className="input-field"/>
+        <div className="container">
+            <div className="card-container">
+                <div className="card">
+                    <h2 className="title">Box Information</h2>
+                    <div className="form-group">
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-group">
+                                <input type="text" id="weight" name="destination" value={boxInfo.destination} onChange={handleChange}
+                                       required placeholder="Enter Destination" className="input-field" />
+                            </div>
+                            <div className="input-group">
+                                <input type="text" id="boxId" name="boxId" value={boxInfo.boxId} onChange={handleChange}
+                                       required placeholder="Enter Box ID" className="input-field" />
+                            </div>
+                            <div className="input-group">
+                                <input type="text" id="content" name="content" value={boxInfo.content} onChange={handleChange}
+                                       required placeholder="Enter Content" className="input-field" />
+                            </div>
+                            <div className="input-group">
+                                <input type="number" id="weight" name="weight" value={boxInfo.weight} onChange={handleChange}
+                                       required placeholder="Enter Weight" className="input-field" />
+                            </div>
+                            <button type="submit" className="submit-button">Generate QR Code</button>
+                        </form>
                     </div>
-                    <div className="input-group">
-                        <input type="text" id="boxId" name="boxId" value={boxInfo.boxId} onChange={handleChange}
-                               required placeholder="Enter Box ID" className="input-field"/>
-                    </div>
-                    <div className="input-group">
-                        <input type="text" id="content" name="content" value={boxInfo.content} onChange={handleChange}
-                               required placeholder="Enter Content" className="input-field"/>
-                    </div>
-                    <div className="input-group">
-                        <input type="number" id="weight" name="weight" value={boxInfo.weight} onChange={handleChange}
-                               required placeholder="Enter Weight" className="input-field"/>
-                    </div>
-                    <button type="submit" className="submit-button">Generate QR Code</button>
-                </form>
+                </div>
             </div>
 
             {qrIsVisible && (
                 <div className="qr-section">
                     <h3>Generated QR Code</h3>
                     <div ref={qrCodeRef}>
-                        <QRCode value={qrUrl} size={256}/>
+                        <QRCode value={qrUrl} size={256} />
                     </div>
                     <button onClick={printQRCode} className="qr-button">Download QR Code</button>
-
                 </div>
             )}
         </div>
-
     );
-
 }
 
 export default QrCodeGenerator;

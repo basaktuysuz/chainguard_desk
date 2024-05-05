@@ -117,6 +117,7 @@ function PageOne() {
             {selectedTab === 'home' && (
                 <div className="welcome-message">
                     <h1>Welcome to ChainGuard</h1>
+
                     <img src="/logo.png" alt="ChainGuard Logo"/>
                 </div>
             )}
