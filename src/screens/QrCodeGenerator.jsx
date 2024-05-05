@@ -71,6 +71,15 @@ function QrCodeGenerator() {
             });
     };
 
+    const handleReset = () => {
+        setBoxInfo({
+            boxId: "",
+            content: "",
+            weight: "",
+            destination: ""
+        });
+        setQrIsVisible(false);
+    };
 
     return (
         <div className="container">
@@ -95,7 +104,10 @@ function QrCodeGenerator() {
                                 <input type="number" id="weight" name="weight" value={boxInfo.weight} onChange={handleChange}
                                        required placeholder="Enter Weight" className="input-field" />
                             </div>
+                            <br></br>
                             <button type="submit" className="submit-button">Generate QR Code</button>
+                            <br></br>
+                            <button type="button" onClick={handleReset} className="reset-button">Reset</button>
                         </form>
                     </div>
                 </div>
