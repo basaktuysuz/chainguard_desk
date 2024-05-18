@@ -29,7 +29,7 @@ function QrCodeGenerator() {
     };
 
     const generateQRCode = () => {
-        const url = `https://chainguard.com/box/${boxInfo.boxId}/destination/${boxInfo.destination}/content/${boxInfo.content}/weight/${boxInfo.weight}`;
+        const url = `https://chainguard.com/box/${boxInfo.boxId}/content/${boxInfo.content}/weight/${boxInfo.weight}`;
         setQrUrl(url);
         setQrIsVisible(true);
     };

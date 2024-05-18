@@ -7,17 +7,6 @@ import {getFirestore, doc, setDoc} from "firebase/firestore";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
-// Firebase configuration
-export const firebaseConfig = {
-    apiKey: "AIzaSyAB75Ak27jhVn_i7oC9jrDf0TrO5Ln6Su8",
-    authDomain: "chainguard-1654e.firebaseapp.com",
-    projectId: "chainguard-1654e",
-    storageBucket: "chainguard-1654e.appspot.com",
-    messagingSenderId: "563544549458",
-    appId: "1:563544549458:web:75a526eab13412c538d78b"
-};
-
-
 function App() {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -60,7 +49,7 @@ function App() {
             }
         } catch (error) {
             console.error('Error signing up:', error);
-            // Hata durumunu işleyin
+            // Hata durumu
         }
     };
 
@@ -86,18 +75,16 @@ function App() {
             }
         } catch (error) {
             console.error('Error logging in:', error);
-            // Hata durumunu işleyin
+            // Hata durumu
         }
     };
     const signup = async (email, password) => {
-        // validation code here
-
+        // validation code
         // Function to sign up user into our App Service app using their email & password
 
         try {
             await app.emailPasswordAuth.registerUser(email, password);
-            // Since we are automatically confirming our users, we are going to log in
-            // the user using the same credentials once the signup is complete.
+
             // return app3.emailPasswordLogin(email, password);
         } catch (error) {
             throw error;
